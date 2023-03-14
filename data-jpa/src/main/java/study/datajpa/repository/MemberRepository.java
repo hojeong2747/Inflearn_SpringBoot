@@ -1,6 +1,8 @@
 package study.datajpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import study.datajpa.entity.Member;
 
 import java.util.List;
@@ -17,4 +19,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // Top3 넣을 수도 있음 -> from
     //        member member0_ limit ?
     List<Member> findTop3HelloBy();
+
+//    @Query(name = "Member.findByUsername") // Member.findByUsername 는 NamedQuery.
+// 근데 이거 주석 처리 해도 된다. 엔티티 타입에 있는 명에 .을 찍고 namedQuery 를 먼저 찾는다! 있으면 실행하고 없으면 쿼리 메서드를 만듦.
+    List<Member> findByUsername(@Param("username") String username);
+    // @Param 은 언제 적냐! -> 명확하게 JPQL 이 있을 때. :username 이렇게 분명하게 작성했을 때! 그럼 그 username 으로 매칭시켜줌.
+
 }
