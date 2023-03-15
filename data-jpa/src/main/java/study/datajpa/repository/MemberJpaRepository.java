@@ -50,7 +50,7 @@ public class MemberJpaRepository {
                 .setParameter("age", age)
                 .getResultList();
     }
-    // m.username 잘못 입력하면, 고객이 이거 누르는 순간 오류가 발생한다. 문법 오류인지 아닌지 파싱이 안 돼서 모른다. 
+    // m.username 잘못 입력하면, 고객이 이거 누르는 순간 오류가 발생한다. 문법 오류인지 아닌지 파싱이 안 돼서 모른다.
 
     // JPA NamedQuery -> 구현하기 귀찮다!
     public List<Member> findByUsername(String username) {
