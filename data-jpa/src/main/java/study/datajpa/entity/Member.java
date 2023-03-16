@@ -1,6 +1,8 @@
 package study.datajpa.entity;
 
 import lombok.*;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 
@@ -13,6 +15,7 @@ import javax.persistence.*;
         query="select m from Member m where m.username = :username"
 ) // JPA NamedQuery -> 실무에서 거의 안 쓴다.
 // m.username 잘못 치면? 앱 로딩 시점에 파싱한다. JPQL -> SQL 과정을 거치면서 버그를 잡을 수 있다! 오류 잡을 수 있는 게 NamedQuery 의 가장 큰 장점이다!
+@NamedEntityGraph(name = "Member.all", attributeNodes = @NamedAttributeNode("team")) // 잘 안 쓰긴 하는데 소개
 public class Member {
 
     @Id @GeneratedValue

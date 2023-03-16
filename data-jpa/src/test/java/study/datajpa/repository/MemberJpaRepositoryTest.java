@@ -87,4 +87,55 @@ public class MemberJpaRepositoryTest {
         Member findMember = result.get(0);
         assertThat(findMember).isEqualTo(m1);
     }
+
+    // 순수 JPA 페이징 쿼리 테스트
+    @Test
+    public void paging() {
+        // given 이런 데이터가 있을 때
+        memberJpaRepository.save(new Member("member1", 10));
+        memberJpaRepository.save(new Member("member2", 10));
+        memberJpaRepository.save(new Member("member3", 10));
+        memberJpaRepository.save(new Member("member4", 10));
+        memberJpaRepository.save(new Member("member5", 10));
+
+        int age = 10;
+        int offset = 0;
+        int limit = 3;
+
+        // when 이렇게 하면
+        List<Member> members = memberJpaRepository.findByPage(age, offset, limit);
+        long totalCount = memberJpaRepository.totalCount(age);
+
+        // 페이지 계산 공식 적용
+        // totalPage = totalCount / size
+        // 마지막 페이지, 최초 페이지 ..
+        // 스프링 데이터 JPA 에 이미 좋은 게 있다! 몇 번 페이지, 다음 페이지 있는지 없는지 알려주는 좋은 객체 존재함.
+
+        // then
+        assertThat(members.size()).isEqualTo(3);
+        assertThat(totalCount).isEqualTo(5);
+
+    }
+
+
+    // 회원의 나이를 한 번에 변경하는 쿼리
+    // 순수 JPA 를 사용한 벌크성 수정 쿼리
+    @Test
+    public void bulkUpdate() {
+
+        // given
+        memberJpaRepository.save(new Member("member1", 10));
+        memberJpaRepository.save(new Member("member2", 19));
+        memberJpaRepository.save(new Member("member3", 20));
+        memberJpaRepository.save(new Member("member4", 21));
+        memberJpaRepository.save(new Member("member5", 40));
+
+        // when
+        int resultCount = memberJpaRepository.bulkAgePlus(20); // 20 이상인 member 3개 나옴.
+
+        // then
+        assertThat(resultCount).isEqualTo(3);
+
+
+    }
 }
