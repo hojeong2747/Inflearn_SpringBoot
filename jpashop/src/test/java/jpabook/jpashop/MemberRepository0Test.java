@@ -37,6 +37,8 @@ public class MemberRepository0Test {
         // entityManager 를 통한 모든 데이터 변경은 항상 transaction 안에서 이루어져야 함.
 
         // test 는 test 후에 DB rollback 을 해버림. 그래서 DB 결과 보면 제대로 안 보인다. -> @Rollback(false)
+
+        // test 오류 났던 거 ID annotation 때문임. application run failed 에 영향을 끼치는 요소 중 하나임을 기억하기.
     }
 
 }
